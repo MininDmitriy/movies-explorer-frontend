@@ -2,7 +2,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <footer className="footer root__footer">
+    <footer className="footer page__footer">
       <div className="footer__name-of-project">
         <p className="footer__text footer__text_color_gray">Учебный проект Яндекс.Практикум х BeatFilm.</p>
       </div>      

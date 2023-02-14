@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Login() {
   return (
-    <section className="authenticate__container root__authenticate">
+    <section className="authenticate__container page__authenticate">
       <Link className="authenticate__logo" to="/"></Link>
       <h2 className="authenticate__title">Рады видеть!</h2>
       <form className="authenticate__form authenticate__form-autorization" name="form-autorization" noValidate>

@@ -12,13 +12,13 @@
   }
 }
 
-.root__authenticate {
+.page__authenticate {
   padding: calc(50vh - 279px) 0;
   margin: 0 auto;
 }
 
 @media screen and (max-width: 568px) {
-  .root__authenticate {
+  .page__authenticate {
     padding: 56px 0 30px;
   }
 }

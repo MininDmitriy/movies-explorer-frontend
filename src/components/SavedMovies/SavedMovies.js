@@ -6,12 +6,12 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 function SavedMovies() {
   return (
-    <section className="saved-movies">
+    <main className="saved-movies">
       <Header />
       <SearchForm />
       <MoviesCardList />
       <Footer />
-    </section>
+    </main>
   );
 }
 

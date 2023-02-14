@@ -1,4 +1,4 @@
-.root__footer {
+.page__footer {
   padding: 0 70px;
   margin: 0 auto;
   box-sizing: border-box;
@@ -6,13 +6,13 @@
 }
 
 @media screen and (max-width: 984px) {
-  .root__footer {
+  .page__footer {
     padding: 0 30px;
   }
 }
 
 @media screen and (max-width: 568px) {
-  .root__footer {
+  .page__footer {
     padding: 0 10px 20px;
   }
 }

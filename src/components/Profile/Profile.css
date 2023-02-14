@@ -4,13 +4,13 @@
   align-items: center;
 }
 
-.root__profile {
+.page__profile {
   margin: 0 auto;
   padding: calc(50vh - 278px) 0;
 }
 
 @media screen and (max-width: 568px) {
-  .root__profile {
+  .page__profile {
     padding: 70px 0 40px;
   }
 }

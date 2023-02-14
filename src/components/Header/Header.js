@@ -16,7 +16,7 @@ function Header() {
   };
 
   return (
-    <header className="header root__header">
+    <header className="header page__header">
       <Switch>
         <Route exact path="/">
           <section className="header__container">

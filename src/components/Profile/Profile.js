@@ -5,7 +5,7 @@ function Profile() {
   return (
     <>
       <Header />
-      <section className="profile__container root__profile">
+      <section className="profile__container page__profile">
         <h2 className="profile__title">Привет, Дмитрий!</h2>
         <div className="profile__info-user">
           <h3 className="profile__subtitle-name">Имя</h3>
