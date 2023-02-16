@@ -10,7 +10,7 @@ function SearchForm() {
 
   return (
     <section className="search-form page__search-form">
-      <form className="search-form__form" name="form-search-form" noValidate>
+      <form className="search-form__form" name="form-search-form">
         <input type="text" name="search-text" className="search-form__input" placeholder="Фильм" />
         <button aria-label="Search button" className="search-form__button-search" type="submit" value=""></button>
       </form>
