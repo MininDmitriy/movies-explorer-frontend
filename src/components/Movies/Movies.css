@@ -1,0 +1,33 @@
+.movies {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.movies__button {
+  width: 320px;
+  height: 36px;
+  margin: 10px auto 80px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  background-color: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  font-family: 'Inter', Arial, Helvetica, sans-serif; ;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #000;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 568px) {
+  .movies__button {
+    width: 240px;
+  }
+}
