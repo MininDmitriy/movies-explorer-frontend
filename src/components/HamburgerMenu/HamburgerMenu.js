@@ -13,14 +13,17 @@ function HamburgerMenu({isOpenMenu, onClick}) {
       <nav className={`burger-menu__movies-links-container ${isOpenMenu ? "burger-menu__movies-links-container_active" : ""}`}>
         <ul className="burger-menu__list">
           <li className="burger-menu__item">
-            <NavLink to="/" className={({isActive}) => `burger-menu__link ${isActive ? "burger-menu__link_active" : ""}`}>Главная</NavLink>
+            <NavLink to="/" className="burger-menu__link" activeClassName="burger-menu__link_active">Главная</NavLink>
           </li>
+
           <li className="burger-menu__item">
-            <NavLink to="/movies" className={({isActive}) => `burger-menu__link ${isActive ? "burger-menu__link_active" : ""}`}>Фильмы</NavLink>
+            <NavLink to="/movies" className="burger-menu__link" activeClassName="burger-menu__link_active">Фильмы</NavLink>
           </li>
+
           <li className="burger-menu__item">
-            <NavLink to="/saved-movies" className={({isActive}) => `burger-menu__link ${isActive ? "burger-menu__link_active" : ""}`}>Сохранённые фильмы</NavLink>
+            <NavLink to="/saved-movies" className="burger-menu__link" activeClassName="burger-menu__link_active">Сохранённые фильмы</NavLink>
           </li>
+
           <li className="burger-menu__item">
             <NavLink to="/profile" className="burger-menu__link-acсount">Аккаунт</NavLink>
           </li>
