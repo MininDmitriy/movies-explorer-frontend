@@ -5,11 +5,11 @@ import { useFormWithValidation} from "../../hooks/useFormWithValidation";
 function Login({ onLogin }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (evt) => {
+    evt.preventDefault();
+    
     onLogin(values.email, values.password);
     resetForm();
-    console.log({values});
   }
 
   return (
@@ -47,13 +47,13 @@ function Login({ onLogin }) {
         />
         <span className="authenticate__input-error-text">{errors.password || ""}</span>
 
-        <input 
+        <button
           aria-label="Login button" 
           className={`${isValid ? "authenticate__button-save" : "authenticate__button-save_state_inactive"}`} 
           type="submit" 
           value="Войти" 
-          disabled={isValid} 
-        />
+          disabled={!isValid ? true : ''}
+        >Войти</button>
         <p className="authenticate__text">
           Ещё не зарегистрированы? 
           <Link className="authenticate__link" to="/signup">Регистрация</Link>

@@ -1,11 +1,7 @@
-//Работа со своим API
-
-export const baseUrl = 'https://api.dbminin.diplom.nomoredomains.rocks';
-
-//Проверка валидности jwt-токена и получение данных пользователя
+export const BASE_URL = 'https://api.dbminin.diplom.nomoredomains.rocks';
 
 export const checkUserJWT = (JWT) => {
-  return fetch(`${baseUrl}/users/me`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -14,22 +10,18 @@ export const checkUserJWT = (JWT) => {
   }).then(checkResponse);
 }
 
-//Получение данных о пользователе с последующим формированием контекста currentUser
-
 export const getInfoAboutProfile = () => {
-  return fetch(`${baseUrl}/users/me`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      'authorization': `Bearer ${localStorage.getItem('jwt')}`,
       'content-type': 'application/json'
     }
   }).then(checkResponse);
 }
 
-//Регистрация пользователя
-  
 export const handleRegistration = (userEmail, userPassword, userName) => {
-  return fetch(`${baseUrl}/signup`, {
+  return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
@@ -42,10 +34,8 @@ export const handleRegistration = (userEmail, userPassword, userName) => {
   }).then(checkResponse);
 };
 
-//Аутентификация пользователя
-
 export const handleAuthenticate = (userEmail, userPassword) => {
-  return fetch(`${baseUrl}/signin`, {
+  return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
@@ -57,13 +47,11 @@ export const handleAuthenticate = (userEmail, userPassword) => {
   }).then(checkResponse);
 };
 
-//Изменение данных пользователя
-
 export const changeProfile = ({ newName, newEmail }) => {
-  return fetch(`${baseUrl}/users/me`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: 'PATCH',
     headers: {
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      'authorization': `Bearer ${localStorage.getItem('jwt')}`,
       'content-type': 'application/json'
     },
     body: JSON.stringify({
@@ -74,7 +62,7 @@ export const changeProfile = ({ newName, newEmail }) => {
 }
 
 export const getMovies = () => {
-  return fetch(`${baseUrl}/movies`, {
+  return fetch(`${BASE_URL}/movies`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -83,22 +71,37 @@ export const getMovies = () => {
   }).then(checkResponse);
 }
 
-export const addMovies = (data) => {
-  return fetch(`${baseUrl}/movies`, {
+export const addMovies = (movie) => {
+  return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
-    }
+    },
+    body: JSON.stringify({
+      country: `${movie.country}`,
+      director: `${movie.director}`,
+      duration: `${movie.duration}`,
+      year: `${movie.year}`,
+      description: `${movie.description}`,
+      image: `https://api.nomoreparties.co${movie.image.url}`,        
+      trailerLink: `${movie.trailerLink}`,
+      nameRU: `${movie.nameRU}`,
+      nameEN: `${movie.nameEN}`,
+      thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+      movieId: `${movie.id}`
+    }),
   }).then(checkResponse);
 }
 
-export const deleteMovies = (movieId) => {
-  return fetch(`${baseUrl}/movies/${movieId}`, {
+export const deleteMovies = (id) => {
+  return fetch(`${BASE_URL}/movies/${id}`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
     }
   }).then(checkResponse);
 }

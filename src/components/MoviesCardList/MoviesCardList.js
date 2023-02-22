@@ -2,19 +2,19 @@ import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
 
-function MoviesCardList({ films, savedMoviesToggle, filmsSaved, filmsRemains, handlerMoreFilms }) {
+function MoviesCardList({ movies, savedMoviesToggle, moviesSaved, moviesRemains, handlerMore }) {
   const { pathname } = useLocation();
 
   return (
     <section className="movies-card-list page__movies-card-list">
-      {films.length > 0 ? (
+      {movies.length > 0 ? (
         <ul className="movies-card-list__cards">
-          {films.map((film) => (
+          {movies.map((item) => (
             <MoviesCard
-              key={film.id || film.movieId}
-              film={film}
+              key={item.id || item.movieId}
+              movie={item}
               savedMoviesToggle={savedMoviesToggle}
-              filmsSaved={filmsSaved}
+              moviesSaved={moviesSaved}
             />
           ))}
         </ul>
@@ -22,15 +22,14 @@ function MoviesCardList({ films, savedMoviesToggle, filmsSaved, filmsRemains, ha
         <div className="movies-card-list__cards__text">Ничего не найдено</div>
       )}
   
-      {filmsRemains.length > 0 && pathname !== '/saved-movies' && (
-        <div className="cards__button-container">
-          <input 
+      {pathname !== "/saved-movies" && moviesRemains.length > 0 && (
+        <div className="movies-card-list__button-container">
+          <button 
             aria-label="Load button" 
             className="movies-card-list__button" 
-            type="button" 
-            value="Ещё" 
-            onChange={handlerMoreFilms} 
-          />
+            type="button"
+            onClick={handlerMore} 
+          >Ещё</button>
         </div>
       )}
     </section>

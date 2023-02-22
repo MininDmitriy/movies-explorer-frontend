@@ -1,11 +1,11 @@
 @import url(../../vendor/fonts/fonts.css);
 @import url(../../vendor/normalize.css);
 
-.page {
+#root {
   background-color: #fafafa;
 }
 
-#root {
+.page {
   max-width: 1280px;
   min-width: 320px;
   min-height: 100vh;

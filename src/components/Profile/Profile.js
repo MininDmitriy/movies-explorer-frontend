@@ -14,17 +14,16 @@ function Profile({ onSignOut, openPopup }) {
   const handlerSubmit = (evt) => {
     evt.preventDefault();
 
-    changeProfile({ name, email })
+    changeProfile({ newName: name, newEmail: email })
       .then(() => {
         setVisibleButton(false);
         setLastName(name);
         setLastEmail(email);
-        console.log('Данные успешно изменены!');
-        openPopup('Данные успешно изменены!');
+        openPopup('Данные успешно изменены');
       })
       .catch((err) => {
         console.log(err);
-        openPopup('Что-то пошло не так!');
+        openPopup('Что-то пошло не так');
       });
   };
 
@@ -40,7 +39,7 @@ function Profile({ onSignOut, openPopup }) {
   }
 
   function handlerChangeEmail(evt) {
-    const value = evt.target.value;
+    const value = evt.target.value;    
     setEmail(value);
 
     if (value !== lastEmail) {
@@ -58,12 +57,26 @@ function Profile({ onSignOut, openPopup }) {
         <div className="profile__container-inputs">
           <div className="profile__conainer-name">
             <h3 className="profile__subtitle">Имя</h3>
-            <input className="profile__input-info" value={name} onChange={handlerChangeName} />
+            <input 
+              type="text" 
+              name="name"
+              className="profile__input-info" 
+              value={name} 
+              onChange={handlerChangeName}
+              required 
+            />
           </div>
 
           <div className="profile__conainer-email">
             <h3 className="profile__subtitle" lang="en">E-mail</h3>
-            <input className="profile__input-info" value={email} onChange={handlerChangeEmail} />
+            <input 
+              type="email" 
+              name="email"
+              className="profile__input-info" 
+              value={email} 
+              onChange={handlerChangeEmail} 
+              required
+            />
           </div>
         </div>
          
@@ -71,12 +84,15 @@ function Profile({ onSignOut, openPopup }) {
           aria-label="Redact button" 
           className={`${isVisibleButton ? "profile__button-redact" : "profile__button-redact_inactive"}`} 
           disabled={!isVisibleButton}
-        >
-          Редактировать
+        >Редактировать
         </button>
 
-        <button aria-label="Logout button" className="profile__button-logout" type="button" onClick={onSignOut}>
-          Выйти из аккаунта
+        <button 
+          aria-label="Logout button" 
+          className="profile__button-logout" 
+          type="button" 
+          onClick={onSignOut}
+        >Выйти из аккаунта
         </button>
       </form>
     </section>

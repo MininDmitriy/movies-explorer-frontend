@@ -26,20 +26,11 @@ function App() {
   const [currentUser, setCurrentUser] = useState({ userEmail: "", userName: "" });
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isActiveMenuHamburger, setIsActiveMenuHamburger] = useState(false);
   const { pathname } = useLocation();
   const history = useHistory();
 
   useEffect(() => {
-    checkToken();
-  }, []);
-
-  useEffect(() => {
-    if(loggedIn) {
-      getUserInfo();
-    }
-  }, [loggedIn]);
-
-  const checkToken = () => {
     const jwt = localStorage.getItem('jwt');
     checkUserJWT(jwt)
       .then((data) => {
@@ -53,13 +44,19 @@ function App() {
       })
       .finally(() => {
         setIsLoading(false);
-      })
-  }
+      })      
+  }, [history]);
+
+  useEffect(() => {
+    if(loggedIn) {
+      getUserInfo();
+    }
+  }, [loggedIn]);  
 
   const getUserInfo = () => {
     getInfoAboutProfile()
       .then((userData) => {        
-        setCurrentUser({ userEmail: userData.email, userName: userData.name });
+        setCurrentUser({ email: userData.email, name: userData.name });
       })
       .catch(err => {
         console.log(err);
@@ -71,16 +68,14 @@ function App() {
 
   const onRegister = (userEmail, userPassword, userName) => {
     handleRegistration(userEmail, userPassword, userName)
-      .then((data) => {
-        if (data._id) {
-          setPopupTitle('Успешная регистрация');
-          setIsOpenPopup(true);
-          onLogin(userEmail, userPassword);
-        }
+      .then(() => {
+        setPopupTitle('Успешная регистрация');
+        setIsOpenPopup(true);
+        onLogin(userEmail, userPassword);
       })
       .catch(err => {
         setIsOpenPopup(true);
-        setPopupTitle('Что-то пошло не так');
+        setPopupTitle(`Что-то пошло не так: ${err}`);
         console.log(err);
       });
   }
@@ -90,14 +85,13 @@ function App() {
       .then((data) => {
         if(data) {
           localStorage.setItem('jwt', data.token);
-          console.log(`token: ${data.token}`);
           setLoggedIn(true);
           getUserInfo();
           history.push("/movies");
         }
       })
       .catch(err => {
-        setPopupTitle('Что-то пошло не так');
+        setPopupTitle(`Что-то пошло не так: ${err}`);
         setIsOpenPopup(true);
         console.log(err);
       })
@@ -116,61 +110,79 @@ function App() {
   const onSignOut = () => {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
+    localStorage.removeItem('movies');
+    localStorage.removeItem('moviesSwitch');
+    localStorage.removeItem('moviesInputSearch');
+    localStorage.removeItem('savedMovies');
+    localStorage.removeItem('savedMoviesSwitch');
+    localStorage.removeItem('savedMoviesInputSearch');
   }
 
+  const handleActivHamburgerMenu = () => {
+    setIsActiveMenuHamburger(!isActiveMenuHamburger);
+  }
+  
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      {pathname === "/" || pathname === "/movies" || pathname === "/saved-movies" || pathname === "/profile" ?
-        <Header loggedIn={loggedIn} isLoading={isLoading}/> : ''}
+      <div className="page">
+        {pathname === "/" || pathname === "/movies" || pathname === "/saved-movies" || pathname === "/profile" ?
+          <Header 
+            loggedIn={loggedIn} 
+            isLoading={isLoading}
+            handleActivHamburgerMenu={handleActivHamburgerMenu}
+            isActiveMenuHamburger={isActiveMenuHamburger}
+          /> : ''
+        }
 
-      <Switch>
-        <Route exact path="/">
-          <Main />
-        </Route>
+        <Switch>
+          <Route exact path="/">
+            <Main />
+          </Route>
 
-        <ProtectedRoute
-          path="/movies"
-          loggedIn={loggedIn}
-          component={Movies}
-          isLoading={isLoading}
-          openPopup={openPopup}
-        />
+          <ProtectedRoute
+            path="/movies"
+            loggedIn={loggedIn}
+            component={Movies}
+            isLoading={isLoading}
+            openPopup={openPopup}
+          />
 
-        <ProtectedRoute
-          path="/saved-movies"
-          loggedIn={loggedIn}
-          component={SavedMovies}
-          isLoading={isLoading}
-          openPopup={openPopup}
-        />
+          <ProtectedRoute
+            path="/saved-movies"
+            loggedIn={loggedIn}
+            component={SavedMovies}
+            isLoading={isLoading}
+            openPopup={openPopup}
+          />
 
-        <ProtectedRoute
-          path="/profile"
-          loggedIn={loggedIn}
-          component={Profile}
-          isLoading={isLoading}
-          onSignOut={onSignOut}
-          openPopup={openPopup}
-        />
+          <ProtectedRoute
+            path="/profile"
+            loggedIn={loggedIn}
+            component={Profile}
+            isLoading={isLoading}
+            onSignOut={onSignOut}
+            openPopup={openPopup}
+          />
 
-        <Route path="/signin">
-          {() =>
-            isLoading ? <Preloader /> : !loggedIn ? <Login onLogin={onLogin} /> : <Redirect to="/movies" />
-          }
-        </Route>
+          <Route path="/signin">
+            {() =>
+              isLoading ? <Preloader /> : !loggedIn ? <Login onLogin={onLogin} /> : <Redirect to="/movies" />
+            }
+          </Route>
 
-        <Route path="/signup">
-          { isLoading ? <Preloader /> : !loggedIn ? <Register onRegister={onRegister} /> : <Redirect to="/movies" /> }
-        </Route>
+          <Route path="/signup">
+            { isLoading ? <Preloader /> : !loggedIn ? <Register onRegister={onRegister} /> : <Redirect to="/movies" /> }
+          </Route>
 
-        <Route path="*">
-          <ErrorPage />
-        </Route>
-      </Switch>
+          <Route path="*">
+            <ErrorPage />
+          </Route>
+        </Switch>
 
-      {pathname === "/" || pathname === "/movies" || pathname === "/saved-movies" ? <Footer /> : ""}
+        {pathname === "/" || pathname === "/movies" || pathname === "/saved-movies" ? <Footer /> : ""}
 
-      <InfoTooltip text={popupTitle} isOpen={isOpenPopup} onClose={closePopup} />
+        <InfoTooltip text={popupTitle} isOpen={isOpenPopup} onClose={closePopup} />
+      </div>
     </CurrentUserContext.Provider>
   );
 }

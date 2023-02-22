@@ -7,10 +7,10 @@ function Register({ onRegister }) {
 
   const onSubmit = (evt) => {
     evt.preventDefault();
+    
     onRegister(values.email, values.password, values.name);
     resetForm();
-    console.log('Регистрация прошла успешно!');
-  } 
+  }
 
   return (
     <section className="registration__container page__registration">
@@ -24,7 +24,6 @@ function Register({ onRegister }) {
 
         <label className="registration__label">Имя</label>
         <input 
-          id="name" 
           type="text" 
           name="name" 
           className="registration__input" 
@@ -33,11 +32,10 @@ function Register({ onRegister }) {
           value={values.name || ""} onChange={handleChange} 
           required 
         />
-        <span className="registration__input-error-text" id="name-error">{errors.name || ""}</span>
+        <span className="registration__input-error-text">{errors.name || ""}</span>
         
         <label className="registration__label" lang="en">E-mail</label>
         <input 
-          id="email" 
           type="email" 
           name="email" 
           className="registration__input" 
@@ -47,11 +45,10 @@ function Register({ onRegister }) {
           onChange={handleChange} 
           required 
         />
-        <span className="registration__input-error-text" id="email-error">{errors.email || ""}</span>
+        <span className="registration__input-error-text">{errors.email || ""}</span>
         
         <label className="registration__label">Пароль</label>
         <input 
-          id="password" 
           type="password" 
           name="password" 
           className="registration__input" 
@@ -63,15 +60,14 @@ function Register({ onRegister }) {
         />
         <span className="registration__input-error-text">{errors.password || ""}</span>
 
-        <input 
-          aria-label="Login button" 
-          className={`${isValid ? "registration__button-save" : "registration__button-save_state_inactive"}`} 
+        <button 
+          aria-label="Register button" 
+          className={`${isValid ? "registration__button-save" : "registration__button-save_state_inactive"}`}
           type="submit" 
-          value="Зарегистрироваться" 
-          disabled={isValid}
-        />
+          disabled={!isValid ? true : ''}
+        >Зарегистрироваться</button>
         <p className="registration__text">
-          Уже зарегистрированы? 
+          Уже зарегистрированы?
           <Link className="registration__link" to="/signin">Войти</Link>
         </p>
         
