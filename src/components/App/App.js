@@ -25,14 +25,16 @@ function App() {
   const [popupTitle, setPopupTitle] = useState('');
   const [currentUser, setCurrentUser] = useState({ userEmail: "", userName: "" });
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isActiveMenuHamburger, setIsActiveMenuHamburger] = useState(false);
   const { pathname } = useLocation();
   const history = useHistory();
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    checkUserJWT(jwt)
+    if(jwt) {
+      setIsLoading(true);
+      checkUserJWT(jwt)
       .then((data) => {
         if(data) {
           setLoggedIn(true);
@@ -44,8 +46,9 @@ function App() {
       })
       .finally(() => {
         setIsLoading(false);
-      })      
-  }, [history]);
+      })
+    }      
+  }, []);
 
   useEffect(() => {
     if(loggedIn) {
@@ -54,6 +57,7 @@ function App() {
   }, [loggedIn]);  
 
   const getUserInfo = () => {
+    setIsLoading(true);
     getInfoAboutProfile()
       .then((userData) => {        
         setCurrentUser({ email: userData.email, name: userData.name });
