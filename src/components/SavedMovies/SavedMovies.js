@@ -11,30 +11,29 @@ function SavedMovies({ openPopup }) {
   const [errorText, setErrorText] = useState('');
   const [moviesSwitch, setMoviesSwitch] = useState(false);
   const [moviesInputSearch, setMoviesInputSearch] = useState('');
-  const [moviesShowed, setMoviesShowed] = useState([]);
 
   const handleGetMovies = async (inputSearch, tumbler) => {
     setErrorText('');
     setPreloader(true); 
+    console.log(tumbler);
 
     try {
       const data = await getMovies();
       let filterData = data.filter(({ nameRU }) => nameRU.toLowerCase().includes(inputSearch.toLowerCase()));
 
-      if (!tumbler) {
-        filterData = filterData.filter(({ duration }) => duration <= 40);
+      if (tumbler) {
+        
+        let newFilterData = filterData.filter(({ duration }) => duration <= 40);
+        setMovies(newFilterData);    
+      } else {
+        setMovies(filterData);
       }
 
-      setMoviesShowed(filterData);
-
+      
       if (inputSearch) {
         localStorage.setItem('savedMovies', JSON.stringify(filterData));
-        localStorage.setItem('savedMoviesSwitch', tumbler);
-        localStorage.setItem('savedMoviesInputSearch', inputSearch);
       } else {
         localStorage.removeItem('savedMovies');
-        localStorage.removeItem('savedMoviesSwitch');
-        localStorage.removeItem('savedMoviesInputSearch');
       }
     } catch (err) {
       setErrorText(
@@ -43,8 +42,6 @@ function SavedMovies({ openPopup }) {
 
       setMovies([]);
       localStorage.removeItem('savedMovies');
-      localStorage.removeItem('savedMoviesSwitch');
-      localStorage.removeItem('savedMoviesInputSearch');
     } finally {
       setPreloader(false);
     }
@@ -59,7 +56,6 @@ function SavedMovies({ openPopup }) {
       try {
         await deleteMovies(movie._id);
         const newMovies = await getMovies();
-        setMoviesShowed(newMovies);
         setMovies(newMovies);
       } catch (err) {
         openPopup('Во время удаления фильма произошла ошибка');
@@ -67,31 +63,15 @@ function SavedMovies({ openPopup }) {
     }
   }
 
-  useEffect( () => {
-    const localStorageMovies = localStorage.getItem('savedMovies');
-    if (localStorageMovies) {
-      setMovies(JSON.parse(localStorageMovies));
-      setMoviesShowed(JSON.parse(localStorageMovies));
-      const localStorageMoviesSwitch = localStorage.getItem('savedMoviesSwitch');
-      const localStorageMoviesInputSearch = localStorage.getItem('savedMoviesInputSearch');
-
-      if (localStorageMoviesSwitch) {
-        setMoviesSwitch(localStorageMoviesSwitch === 'false');
-      }
-      if (localStorageMoviesInputSearch) {
-        setMoviesInputSearch(localStorageMoviesInputSearch);
-      }
-    } else {
-      getMovies()
-        .then((data) => {
-          setMovies(data);
-          setMoviesShowed(data);
-        })
-        .catch((err) => {
-          openPopup(`Ошибка: ${err}`);
-        })
-    }
-  }, [openPopup]);
+  useEffect(() => {
+    getMovies()
+      .then((data) => {
+        setMovies(data);
+      })
+      .catch((err) => {
+        openPopup(`Ошибка: ${err}`);
+      })
+  }, []);
 
   return (
     <main className="saved-movies">
@@ -107,7 +87,7 @@ function SavedMovies({ openPopup }) {
         <MoviesCardList 
           moviesRemains={[]} 
           savedMoviesToggle={savedMoviesToggle} 
-          movies={moviesShowed} 
+          movies={movies} 
         />
       )}
     </main>

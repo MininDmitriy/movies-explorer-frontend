@@ -90,6 +90,7 @@ function Movies({ openPopup }) {
       const data = await getMoviesFromBV();
       let filterData = data.filter(({ nameRU }) => nameRU.toLowerCase().includes(inputSearch.toLowerCase()));
       localStorage.setItem('movies', JSON.stringify(filterData));
+      localStorage.removeItem('moviesSwitch');
       localStorage.setItem('moviesInputSearch', inputSearch);
 
       const spliceData = filterData.splice(0, moviesCount[0]);
@@ -113,7 +114,7 @@ function Movies({ openPopup }) {
     let filterData = [];
     const moviesFromStorage = JSON.parse(localStorage.getItem('movies'));
 
-    if (!tumbler) {
+    if (tumbler) {
       filterData = moviesFromStorage.filter(( duration ) => duration.duration <= 40);
       setMoviesShowed(filterData.splice(0, getMoviesCount()[0]));
       setMovies(filterData);
