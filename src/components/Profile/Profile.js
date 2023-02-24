@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { changeProfile } from "../../utils/MainApi";
 
-function Profile({ onSignOut, openPopup }) {
+function Profile({ onSignOut, setCurrentUser, openPopup }) {
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser.name);
   const [lastName, setLastName] = useState(currentUser.name);
@@ -15,10 +15,11 @@ function Profile({ onSignOut, openPopup }) {
     evt.preventDefault();
 
     changeProfile({ newName: name, newEmail: email })
-      .then(() => {
+      .then((userData) => {
         setVisibleButton(false);
         setLastName(name);
         setLastEmail(email);
+        setCurrentUser({ email: userData.email, name: userData.name });
         openPopup('Данные успешно изменены');
       })
       .catch((err) => {

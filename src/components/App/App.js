@@ -166,6 +166,7 @@ function App() {
             isLoading={isLoading}
             onSignOut={onSignOut}
             openPopup={openPopup}
+            setCurrentUser={setCurrentUser}
           />
 
           <Route path="/signin">
