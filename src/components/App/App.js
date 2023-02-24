@@ -38,7 +38,8 @@ function App() {
       .then((data) => {
         if(data) {
           setLoggedIn(true);
-          history.push("/movies");
+          setCurrentUser({ email: data.email, name: data.name });
+          history.push(`${pathname}`);
         }
       })
       .catch(err => {
