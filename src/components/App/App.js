@@ -119,8 +119,6 @@ function App() {
     localStorage.removeItem('moviesSwitch');
     localStorage.removeItem('moviesInputSearch');
     localStorage.removeItem('savedMovies');
-    localStorage.removeItem('savedMoviesSwitch');
-    localStorage.removeItem('savedMoviesInputSearch');
   }
 
   const handleActivHamburgerMenu = () => {

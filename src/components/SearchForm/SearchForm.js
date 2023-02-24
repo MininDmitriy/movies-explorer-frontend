@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGetMoviesTumbler }) {
   const [inputSearch, setInputSearch] = useState('');
-  const [tumbler, setTumbler] = useState(true);
+  const [tumbler, setTumbler] = useState(false);
   const { pathname } = useLocation();
 
   function handleInputChange(evt) {
@@ -27,7 +27,7 @@ function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGe
   }
 
   useEffect(() => {
-    setTumbler(moviesSwitch);
+    setTumbler(!moviesSwitch);
     setInputSearch(moviesInputSearch);
   }, [moviesSwitch, moviesInputSearch]);
 
@@ -57,7 +57,7 @@ function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGe
         <button 
           aria-label="Search checkbox" 
           className={`
-            ${tumbler 
+            ${!tumbler 
               ? 
               "search-form__slider-checkbox_position_right"
               :

@@ -119,14 +119,16 @@ function Movies({ openPopup }) {
       setMoviesShowed(filterData.splice(0, getMoviesCount()[0]));
       setMovies(filterData);
       setPreloader(false);
+      localStorage.setItem('moviesSwitch', tumbler);
     } else {
       filterData = moviesFromStorage;
       setMoviesShowed(filterData.splice(0, getMoviesCount()[0]));
       setMovies(filterData);
       setPreloader(false);
+      localStorage.getItem('moviesSwitch', tumbler);
     }
   }
-
+  
   useEffect(() => {
     getMovies()
       .then((data) => {
@@ -155,7 +157,7 @@ function Movies({ openPopup }) {
     if (localStorageMoviesInputSearch) {
       setMoviesInputSearch(localStorageMoviesInputSearch);
     }
-  }, [openPopup]);
+  }, []);
 
   return (
     <main className="movies">

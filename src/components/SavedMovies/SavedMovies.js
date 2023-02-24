@@ -9,13 +9,10 @@ function SavedMovies({ openPopup }) {
   const [movies, setMovies] = useState(null);
   const [preloader, setPreloader] = useState(false);
   const [errorText, setErrorText] = useState('');
-  const [moviesSwitch, setMoviesSwitch] = useState(false);
-  const [moviesInputSearch, setMoviesInputSearch] = useState('');
 
   const handleGetMovies = async (inputSearch, tumbler) => {
     setErrorText('');
-    setPreloader(true); 
-    console.log(tumbler);
+    setPreloader(true);
 
     try {
       const data = await getMovies();
@@ -77,8 +74,8 @@ function SavedMovies({ openPopup }) {
     <main className="saved-movies">
       <SearchForm 
         handleGetMovies={handleGetMovies} 
-        moviesSwitch={moviesSwitch} 
-        moviesInputSearch={moviesInputSearch} 
+        moviesSwitch={false} 
+        moviesInputSearch={''} 
         handleGetMoviesTumbler={handleGetMoviesTumbler}
       />
       {preloader && <Preloader />}
