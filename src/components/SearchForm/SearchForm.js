@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGetMoviesTumbler }) {
   const [inputSearch, setInputSearch] = useState('');
-  const [tumbler, setTumbler] = useState(false);
+  const [tumbler, setTumbler] = useState(moviesSwitch);
   const { pathname } = useLocation();
 
   function handleInputChange(evt) {
@@ -13,7 +13,12 @@ function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGe
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    handleGetMovies(inputSearch);
+
+    if (pathname === "/movies") {
+      handleGetMovies(inputSearch, tumbler);
+    } else if (pathname === "/saved-movies") {
+      handleGetMovies(inputSearch);
+    }
   }
   
   function handleTumblerChange() {
@@ -27,9 +32,13 @@ function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGe
   }
 
   useEffect(() => {
-    setTumbler(!moviesSwitch);
+    if (pathname === "/movies") {
+      setTumbler(moviesSwitch);
+    } else {
+      setTumbler(!moviesSwitch);
+    }
     setInputSearch(moviesInputSearch);
-  }, [moviesSwitch, moviesInputSearch]);
+  }, [moviesSwitch, moviesInputSearch, pathname]);
 
   return (
     <section className="search-form page__search-form">
@@ -57,11 +66,11 @@ function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGe
         <button 
           aria-label="Search checkbox" 
           className={`
-            ${!tumbler 
+            ${tumbler 
               ? 
-              "search-form__slider-checkbox_position_right"
-              :
               "search-form__slider-checkbox_position_left"
+              :              
+              "search-form__slider-checkbox_position_right"
             }`} 
           onClick={handleTumblerChange}></button>
         <p className="search-form__title-checkbox">Короткометражки</p>

@@ -18,15 +18,13 @@ function SavedMovies({ openPopup }) {
       const data = await getMovies();
       let filterData = data.filter(({ nameRU }) => nameRU.toLowerCase().includes(inputSearch.toLowerCase()));
 
-      if (tumbler) {
-        
+      if (tumbler) {        
         let newFilterData = filterData.filter(({ duration }) => duration <= 40);
         setMovies(newFilterData);    
       } else {
         setMovies(filterData);
       }
 
-      
       if (inputSearch) {
         localStorage.setItem('savedMovies', JSON.stringify(filterData));
       } else {

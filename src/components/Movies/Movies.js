@@ -74,9 +74,8 @@ function Movies({ openPopup }) {
     }
   }
 
-  const handleGetMovies = async (inputSearch) => {
-    setMoviesSwitch(false);
-    localStorage.setItem('moviesSwitch', false);
+  const handleGetMovies = async (inputSearch, tumbler) => {
+    localStorage.setItem('moviesSwitch', tumbler);
 
     if (!inputSearch) {
       setErrorInfo('Необходимо ввести ключевое слово в поисковик');
@@ -89,13 +88,28 @@ function Movies({ openPopup }) {
     try {
       const data = await getMoviesFromBV();
       let filterData = data.filter(({ nameRU }) => nameRU.toLowerCase().includes(inputSearch.toLowerCase()));
-      localStorage.setItem('movies', JSON.stringify(filterData));
-      localStorage.removeItem('moviesSwitch');
+      let filterDataShowed = [];
+
+      if (tumbler) {
+        let newFilterData = filterData.filter(( duration ) => duration.duration <= 40);        
+        localStorage.setItem('movies', JSON.stringify(newFilterData));
+
+      } else {
+        let newFilterData = filterData.filter(( duration ) => duration.duration > 40); 
+        localStorage.setItem('movies', JSON.stringify(newFilterData));
+        
+      }
+
+      let newFilterData = JSON.parse(localStorage.getItem('movies'));
+      filterDataShowed = newFilterData.splice(0, getMoviesCount()[0]);
+      setMoviesShowed(filterDataShowed);
+      setMovies(newFilterData);
+      localStorage.setItem('moviesSwitch', tumbler);
       localStorage.setItem('moviesInputSearch', inputSearch);
 
-      const spliceData = filterData.splice(0, moviesCount[0]);
-      setMoviesShowed(spliceData);
-      setMovies(filterData);
+      // const spliceData = filterData.splice(0, moviesCount[0]);
+      // setMoviesShowed(spliceData);
+      // setMovies(filterData);
     } catch (err) {
       setErrorInfo(
         `Во время запроса произошла ошибка. Возможно, проблема с соединением 
@@ -111,22 +125,8 @@ function Movies({ openPopup }) {
   }
 
   const handleGetMoviesTumbler = (tumbler) => {
-    let filterData = [];
-    const moviesFromStorage = JSON.parse(localStorage.getItem('movies'));
-
-    if (tumbler) {
-      filterData = moviesFromStorage.filter(( duration ) => duration.duration <= 40);
-      setMoviesShowed(filterData.splice(0, getMoviesCount()[0]));
-      setMovies(filterData);
-      setPreloader(false);
-      localStorage.setItem('moviesSwitch', tumbler);
-    } else {
-      filterData = moviesFromStorage;
-      setMoviesShowed(filterData.splice(0, getMoviesCount()[0]));
-      setMovies(filterData);
-      setPreloader(false);
-      localStorage.getItem('moviesSwitch', tumbler);
-    }
+    const inputSearch = localStorage.getItem('moviesInputSearch');
+    handleGetMovies (inputSearch, !tumbler);
   }
   
   useEffect(() => {
@@ -151,7 +151,7 @@ function Movies({ openPopup }) {
     const localStorageMoviesInputSearch = localStorage.getItem('moviesInputSearch');
  
     if (localStorageMoviesSwitch) {
-      setMoviesSwitch(localStorageMoviesSwitch === 'false');
+      setMoviesSwitch(localStorageMoviesSwitch);
     } 
  
     if (localStorageMoviesInputSearch) {
@@ -165,7 +165,7 @@ function Movies({ openPopup }) {
         handleGetMovies={handleGetMovies} 
         moviesSwitch={moviesSwitch} 
         moviesInputSearch={moviesInputSearch} 
-        handleGetMoviesTumbler={handleGetMoviesTumbler} 
+        handleGetMoviesTumbler={handleGetMoviesTumbler}
       />
       {preloader && <Preloader />}
       {errorInfo && <div className="movies__text-error">{errorInfo}</div>}
