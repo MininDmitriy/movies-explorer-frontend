@@ -72,7 +72,7 @@ function SavedMovies({ openPopup }) {
     <main className="saved-movies">
       <SearchForm 
         handleGetMovies={handleGetMovies} 
-        moviesSwitch={false} 
+        moviesSwitch={true} 
         moviesInputSearch={''} 
         handleGetMoviesTumbler={handleGetMoviesTumbler}
       />

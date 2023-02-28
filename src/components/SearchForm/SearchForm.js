@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGetMoviesTumbler }) {
   const [inputSearch, setInputSearch] = useState('');
-  const [tumbler, setTumbler] = useState(moviesSwitch);
+  const [tumbler, setTumbler] = useState(false);
   const { pathname } = useLocation();
 
   function handleInputChange(evt) {
@@ -68,9 +68,9 @@ function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGe
           className={`
             ${tumbler 
               ? 
-              "search-form__slider-checkbox_position_left"
-              :              
               "search-form__slider-checkbox_position_right"
+              :
+              "search-form__slider-checkbox_position_left"
             }`} 
           onClick={handleTumblerChange}></button>
         <p className="search-form__title-checkbox">Короткометражки</p>

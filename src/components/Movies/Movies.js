@@ -155,7 +155,7 @@ function Movies({ openPopup }) {
     } 
  
     if (localStorageMoviesInputSearch) {
-      setMoviesInputSearch(localStorageMoviesInputSearch);
+      setMoviesInputSearch(localStorageMoviesInputSearch === 'false');
     }
   }, []);
 
