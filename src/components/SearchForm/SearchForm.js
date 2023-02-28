@@ -32,13 +32,9 @@ function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGe
   }
 
   useEffect(() => {
-    if (pathname === "/movies") {
-      setTumbler(moviesSwitch);
-    } else {
-      setTumbler(!moviesSwitch);
-    }
+    setTumbler(moviesSwitch);
     setInputSearch(moviesInputSearch);
-  }, [moviesSwitch, moviesInputSearch, pathname]);
+  }, [moviesSwitch, moviesInputSearch]);
 
   return (
     <section className="search-form page__search-form">
@@ -67,7 +63,7 @@ function SearchForm({ handleGetMovies, moviesSwitch, moviesInputSearch, handleGe
           aria-label="Search checkbox" 
           className={`
             ${tumbler 
-              ? 
+              ?
               "search-form__slider-checkbox_position_right"
               :
               "search-form__slider-checkbox_position_left"

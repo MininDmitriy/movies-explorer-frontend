@@ -95,7 +95,7 @@ function Movies({ openPopup }) {
         localStorage.setItem('movies', JSON.stringify(newFilterData));
 
       } else {
-        let newFilterData = filterData.filter(( duration ) => duration.duration > 40); 
+        let newFilterData = filterData; 
         localStorage.setItem('movies', JSON.stringify(newFilterData));
         
       }
@@ -106,10 +106,6 @@ function Movies({ openPopup }) {
       setMovies(newFilterData);
       localStorage.setItem('moviesSwitch', tumbler);
       localStorage.setItem('moviesInputSearch', inputSearch);
-
-      // const spliceData = filterData.splice(0, moviesCount[0]);
-      // setMoviesShowed(spliceData);
-      // setMovies(filterData);
     } catch (err) {
       setErrorInfo(
         `Во время запроса произошла ошибка. Возможно, проблема с соединением 
@@ -155,7 +151,7 @@ function Movies({ openPopup }) {
     } 
  
     if (localStorageMoviesInputSearch) {
-      setMoviesInputSearch(localStorageMoviesInputSearch === 'false');
+      setMoviesInputSearch(localStorageMoviesInputSearch);
     }
   }, []);
 
