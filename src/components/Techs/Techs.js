@@ -5,7 +5,10 @@ function Techs() {
     <section id="techs" className="techs main__techs">
       <h2 className="techs__title">Технологии</h2>
       <h3 className="techs__subtitle">7 технологий</h3>
-      <p className="techs__text">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
+      <p className="techs__text">
+        На&nbsp;курсе веб-разработки мы&nbsp;освоили технологии, которые применили в&nbsp;дипломном проекте.
+      </p>
+      
       <ul className="techs__technology-list">
         <li className="techs__technology">
           <p className="techs__name-technology" lang="en">HTML</p>
